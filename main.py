@@ -2,6 +2,8 @@ import pygame
 import random
 
 from cell import Cell
+from algorithms import CooperativeAStar
+from algorithms import ConflictedBasedSearch
 
 # GLOBAL VARIABLES
 WIDTH = 1080
@@ -30,7 +32,8 @@ def init_grid(rows, cols):
             if not grid[random_y][random_x].is_start() and not grid[random_y][random_x].is_end(): 
                 grid[random_y][random_x].make_start(random_color)
                 break
-
+        
+        # ensure other start/end points are not written over
         while True:
             random_x = int(random.random() * SIZE)
             random_y = int(random.random() * SIZE)
@@ -45,6 +48,7 @@ def init_grid(rows, cols):
 def draw_grid(grid, screen):
     for row in range(0, HEIGHT, CELL_LENGTH):
         for col in range(0, HEIGHT, CELL_LENGTH):
+            # TODO: add indicators for start and end with text
             pygame.draw.rect(screen, grid[row//CELL_LENGTH][col//CELL_LENGTH].color, pygame.Rect(col, row, CELL_LENGTH, CELL_LENGTH))
 
 def main():
@@ -58,6 +62,7 @@ def main():
     grid = init_grid(SIZE, SIZE)
     draw_grid(grid, screen)
     pygame.display.flip()
+
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -65,7 +70,7 @@ def main():
 
         pygame.display.flip()
 
-        clock.tick(60) 
+        clock.tick(60) # 60 fps
 
     pygame.quit()
 
