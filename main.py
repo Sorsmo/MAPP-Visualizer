@@ -8,9 +8,9 @@ from algorithms import ConflictedBasedSearch
 # GLOBAL VARIABLES
 WIDTH = 1080
 HEIGHT = 720
-SIZE = 24                       # Bigger SIZE --> Smaller tiles (best if multiple of HEIGHT)
+SIZE = 9                       # Bigger SIZE --> Smaller tiles (best if multiple of HEIGHT)
 CELL_LENGTH = HEIGHT // SIZE    # number of pixels per cell
-NUM_AGENTS = 5                  # number of agents to be generated
+NUM_AGENTS = 2                  # number of agents to be generated
 
 grid = []
 # Creates a 2D Array representation of the screen
@@ -104,10 +104,10 @@ def main():
     draw_grid(grid, screen)
 
     # buttons for clear, randomize, coopa*, cbs
-    pygame.draw.rect(screen, (255, 0, 0), pygame.Rect(24*CELL_LENGTH, 0*CELL_LENGTH, 12*CELL_LENGTH, 3*CELL_LENGTH))
-    pygame.draw.rect(screen, (0, 255, 0), pygame.Rect(24*CELL_LENGTH, 3*CELL_LENGTH, 12*CELL_LENGTH, 3*CELL_LENGTH))
-    pygame.draw.rect(screen, (0, 0, 255), pygame.Rect(24*CELL_LENGTH, 6*CELL_LENGTH, 12*CELL_LENGTH, 3*CELL_LENGTH))
-    pygame.draw.rect(screen, (100, 0, 0), pygame.Rect(24*CELL_LENGTH, 9*CELL_LENGTH, 12*CELL_LENGTH, 3*CELL_LENGTH))
+    pygame.draw.rect(screen, (255, 0, 0), pygame.Rect(HEIGHT, 0*HEIGHT//4, 12*CELL_LENGTH, 3*CELL_LENGTH))
+    pygame.draw.rect(screen, (0, 255, 0), pygame.Rect(HEIGHT, 1*HEIGHT//4, 12*CELL_LENGTH, 3*CELL_LENGTH))
+    pygame.draw.rect(screen, (0, 0, 255), pygame.Rect(HEIGHT, 2*HEIGHT//4, 12*CELL_LENGTH, 3*CELL_LENGTH))
+    pygame.draw.rect(screen, (100, 0, 0), pygame.Rect(HEIGHT, 3*HEIGHT//4, 12*CELL_LENGTH, 3*CELL_LENGTH))
 
     pygame.display.flip()
 
@@ -120,16 +120,16 @@ def main():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 dragging = True
 
-                mouse_pos_x = pygame.mouse.get_pos()[0]//CELL_LENGTH
-                mouse_pos_y = pygame.mouse.get_pos()[1]//CELL_LENGTH
+                mouse_pos_x = pygame.mouse.get_pos()[0]
+                mouse_pos_y = pygame.mouse.get_pos()[1]
 
-                if mouse_pos_x in range(24, 36) and mouse_pos_y in range(0, 3):
+                if mouse_pos_x in range(HEIGHT, WIDTH) and mouse_pos_y in range(0*HEIGHT//4, 1*HEIGHT//4):
                     clear_walls(grid)
-                if mouse_pos_x in range(24, 36) and mouse_pos_y in range(3, 6):
+                if mouse_pos_x in range(HEIGHT, WIDTH) and mouse_pos_y in range(1*HEIGHT//4, 2*HEIGHT//4):
                     randomize(grid, screen, SIZE, SIZE)
-                if mouse_pos_x in range(24, 36) and mouse_pos_y in range(6, 9):
+                if mouse_pos_x in range(HEIGHT, WIDTH) and mouse_pos_y in range(2*HEIGHT//4, 3*HEIGHT//4):
                     CooperativeAStar()
-                if mouse_pos_x in range(24, 36) and mouse_pos_y in range(9, 12):
+                if mouse_pos_x in range(HEIGHT, WIDTH) and mouse_pos_y in range(3*HEIGHT//4, 4*HEIGHT//4):
                     ConflictedBasedSearch()
 
             if event.type == pygame.MOUSEBUTTONUP:
