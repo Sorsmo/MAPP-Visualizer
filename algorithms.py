@@ -1,5 +1,5 @@
 def CooperativeAStar():
-    pass
+    print('astar')
 
 def ConflictedBasedSearch():
-    pass
+    print('cbs')

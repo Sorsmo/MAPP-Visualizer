@@ -10,6 +10,12 @@ class Cell:
     def pos(self):
         return self.row, self.col
 
+    def make_normal(self):
+        self.wall = False
+        self.end = False
+        self.start = False
+        self.color = (255, 255, 255)
+
     def make_wall(self, color):
         self.color = color
         self.wall = True
@@ -22,6 +28,9 @@ class Cell:
         self.color = color
         self.end = True
     
+    def is_wall(self):
+        return self.wall
+
     def is_start(self):
         return self.start
     
