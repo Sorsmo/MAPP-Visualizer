@@ -7,8 +7,8 @@ import pygame
 import random
 
 from cell import Cell
-from algorithms import CooperativeAStar
-from algorithms import ConflictedBasedSearch
+from CooperativeAStar import CooperativeAStar
+from ConflictBasedSearch import ConflictedBasedSearch
 
 # GLOBAL VARIABLES
 WIDTH = 1080
