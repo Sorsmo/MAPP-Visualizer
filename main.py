@@ -17,6 +17,7 @@ SIZE = 9                        # Bigger SIZE --> Smaller tiles (best if multipl
 CELL_LENGTH = HEIGHT // SIZE    # number of pixels per cell
 NUM_AGENTS = 2                  # number of agents to be generated
 AGENT_TEXT = []                 # information arrays for displaying text of start/end points
+AGENTS = []
 
 # Creates a 2D Array representation of the screen
 # Made up of Cells w/ properties in cell.py
@@ -40,6 +41,7 @@ def init_grid(rows, cols, screen):
                 x_coord = random_x * CELL_LENGTH
                 y_coord = random_y * CELL_LENGTH
                 AGENT_TEXT.append([screen, x_coord, y_coord, 'S' + str(i), random_color])
+                AGENTS.append((random_y, random_x))
                 break
         
         # ensure other start/end points are not written over
@@ -52,6 +54,7 @@ def init_grid(rows, cols, screen):
                 x_coord = random_x * CELL_LENGTH
                 y_coord = random_y * CELL_LENGTH
                 AGENT_TEXT.append([screen, x_coord, y_coord, 'E' + str(i), random_color])
+                AGENTS.append((random_y, random_x))
                 break
     return grid
 
@@ -67,7 +70,6 @@ def draw_agent_text(screen, x_coord, y_coord, text, random_color):
 def draw_grid(grid, screen):
     for row in range(0, HEIGHT, CELL_LENGTH):
         for col in range(0, HEIGHT, CELL_LENGTH):
-            # TODO: add indicators for start and end with text
             pygame.draw.rect(screen, grid[row//CELL_LENGTH][col//CELL_LENGTH].color, pygame.Rect(col, row, CELL_LENGTH, CELL_LENGTH))
             for text in AGENT_TEXT:
                 if text[1] == col and text[2] == row:
@@ -188,7 +190,14 @@ def main():
                 if mouse_pos_x in range(HEIGHT, WIDTH) and mouse_pos_y in range(2*HEIGHT//4, 3*HEIGHT//4):
                     CooperativeAStar()
                 if mouse_pos_x in range(HEIGHT, WIDTH) and mouse_pos_y in range(3*HEIGHT//4, 4*HEIGHT//4):
-                    ConflictedBasedSearch()
+                    paths = ConflictedBasedSearch(grid, AGENTS)
+                    print(paths)
+                    for path in paths:
+                        for cell in path[1:len(path)-1]:
+                            x, y = cell.col, cell.row
+                            pygame.draw.rect(screen, (255,0,0), pygame.Rect(x*CELL_LENGTH, y*CELL_LENGTH, CELL_LENGTH, CELL_LENGTH))
+                            pygame.time.delay(200)
+                            pygame.display.flip()
 
             if event.type == pygame.MOUSEBUTTONUP:
                 dragging = False
@@ -197,10 +206,10 @@ def main():
                 if dragging:
                     draw_wall(grid)
 
-        draw_grid(grid, screen)
+        # draw_grid(grid, screen)
         pygame.display.flip()
         clock.tick(60) # 60 fps
 
     pygame.quit()
-
+    
 main()

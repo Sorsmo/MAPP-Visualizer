@@ -6,6 +6,12 @@ class Cell:
         self.start = False
         self.end = False
         self.wall = False
+        self.g_score = float('inf')
+        self.f_score = float('inf')
+        self.came_from = None
+
+    def __lt__(self, other):
+        return self.f_score < other.f_score
 
     def pos(self):
         return self.row, self.col
