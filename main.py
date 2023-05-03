@@ -56,6 +56,7 @@ def init_grid(rows, cols, screen):
                 AGENT_TEXT.append([screen, x_coord, y_coord, 'E' + str(i), random_color])
                 AGENTS.append((random_y, random_x))
                 break
+
     return grid
 
 # Si = ith agents start 
@@ -79,8 +80,9 @@ def draw_grid(grid, screen):
 def clear_walls(grid):
     for row in range(0, HEIGHT, CELL_LENGTH):
         for col in range(0, HEIGHT, CELL_LENGTH):
-            if grid[row//CELL_LENGTH][col//CELL_LENGTH].is_wall():
-                grid[row//CELL_LENGTH][col//CELL_LENGTH].make_normal()
+            cell = grid[row//CELL_LENGTH][col//CELL_LENGTH]
+            if cell.is_wall() or cell.is_path():
+                cell.make_normal()
 
 # helper fucntion that removes everything from the screen
 def clear_screen(grid):
@@ -90,6 +92,7 @@ def clear_screen(grid):
 
 # changes the start and end points of agents
 def randomize(grid, screen, rows, cols):
+    AGENTS.clear()
     AGENT_TEXT.clear()
     clear_screen(grid)
     for row in range(rows):
@@ -109,6 +112,7 @@ def randomize(grid, screen, rows, cols):
                 x_coord = random_x * CELL_LENGTH
                 y_coord = random_y * CELL_LENGTH
                 AGENT_TEXT.append([screen, x_coord, y_coord, 'S' + str(i), random_color])
+                AGENTS.append((random_y, random_x))
                 break
         
         # ensure other start/end points are not written over
@@ -121,6 +125,7 @@ def randomize(grid, screen, rows, cols):
                 x_coord = random_x * CELL_LENGTH
                 y_coord = random_y * CELL_LENGTH
                 AGENT_TEXT.append([screen, x_coord, y_coord, 'E' + str(i), random_color])
+                AGENTS.append((random_y, random_x))
                 break
 
 # draw wall helper funciton
@@ -140,20 +145,20 @@ def draw_wall(grid):
 # adds button text
 def setup_screen(screen):
     font = pygame.font.Font('freesansbold.ttf', 64)
-    clear_text = font.render('Clear', True, (255, 255, 255), (255, 0, 0))
-    clear_rect = pygame.draw.rect(screen, (255, 0, 0), pygame.Rect(HEIGHT, 0*HEIGHT//4, 12*CELL_LENGTH, 3*CELL_LENGTH))
+    clear_text = font.render('Clear', True, (255, 255, 255), (32, 42, 68))
+    clear_rect = pygame.draw.rect(screen, (32, 42, 68), pygame.Rect(HEIGHT, 0*HEIGHT//4, 12*CELL_LENGTH, 3*CELL_LENGTH))
     screen.blit(clear_text, clear_rect)
 
-    rand_text = font.render('Randomize', True, (255, 255, 255), (0, 255, 0))
-    rand_rect = pygame.draw.rect(screen, (0, 255, 0), pygame.Rect(HEIGHT, 1*HEIGHT//4, 12*CELL_LENGTH, 3*CELL_LENGTH))
+    rand_text = font.render('Randomize', True, (255, 255, 255), (52, 62, 88))
+    rand_rect = pygame.draw.rect(screen, (52, 62, 88), pygame.Rect(HEIGHT, 1*HEIGHT//4, 12*CELL_LENGTH, 3*CELL_LENGTH))
     screen.blit(rand_text, rand_rect)
 
-    coop_text = font.render('Coop A*', True, (255, 255, 255), (0, 0, 255))
-    coop_rect = pygame.draw.rect(screen, (0, 0, 255), pygame.Rect(HEIGHT, 2*HEIGHT//4, 12*CELL_LENGTH, 3*CELL_LENGTH))
+    coop_text = font.render('Coop A*', True, (255, 255, 255), (72, 82, 108))
+    coop_rect = pygame.draw.rect(screen, (72, 82, 108), pygame.Rect(HEIGHT, 2*HEIGHT//4, 12*CELL_LENGTH, 3*CELL_LENGTH))
     screen.blit(coop_text, coop_rect)
 
-    cbs_text = font.render('CBS', True, (255, 255, 255), (100, 0, 0))
-    cbs_rect = pygame.draw.rect(screen, (100, 0, 0), pygame.Rect(HEIGHT, 3*HEIGHT//4, 12*CELL_LENGTH, 3*CELL_LENGTH))
+    cbs_text = font.render('CBS', True, (255, 255, 255), (92, 102, 128))
+    cbs_rect = pygame.draw.rect(screen, (92, 102, 128), pygame.Rect(HEIGHT, 3*HEIGHT//4, 12*CELL_LENGTH, 3*CELL_LENGTH))
     screen.blit(cbs_text, cbs_rect)
 
 def main():
@@ -191,13 +196,18 @@ def main():
                     CooperativeAStar()
                 if mouse_pos_x in range(HEIGHT, WIDTH) and mouse_pos_y in range(3*HEIGHT//4, 4*HEIGHT//4):
                     paths = ConflictedBasedSearch(grid, AGENTS)
-                    print(paths)
+
                     for path in paths:
-                        for cell in path[1:len(path)-1]:
+                        color = path[0].color
+                        for cell in path:
                             x, y = cell.col, cell.row
-                            pygame.draw.rect(screen, (255,0,0), pygame.Rect(x*CELL_LENGTH, y*CELL_LENGTH, CELL_LENGTH, CELL_LENGTH))
-                            pygame.time.delay(200)
+                            grid[y][x].make_normal()
+                            grid[y][x].make_path(color)
+
+                            draw_grid(grid, screen)
                             pygame.display.flip()
+                            pygame.time.delay(200)
+                            
 
             if event.type == pygame.MOUSEBUTTONUP:
                 dragging = False
@@ -206,7 +216,7 @@ def main():
                 if dragging:
                     draw_wall(grid)
 
-        # draw_grid(grid, screen)
+        draw_grid(grid, screen)
         pygame.display.flip()
         clock.tick(60) # 60 fps
 

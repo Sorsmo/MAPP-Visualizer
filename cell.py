@@ -6,6 +6,7 @@ class Cell:
         self.start = False
         self.end = False
         self.wall = False
+        self.path = False
         self.g_score = float('inf')
         self.f_score = float('inf')
         self.came_from = None
@@ -20,6 +21,7 @@ class Cell:
         self.wall = False
         self.end = False
         self.start = False
+        self.path = False
         self.color = (255, 255, 255)
 
     def make_wall(self, color):
@@ -33,7 +35,14 @@ class Cell:
     def make_end(self, color):
         self.color = color
         self.end = True
-    
+
+    def make_path(self, color):
+        self.color = color   
+        self.path = True 
+
+    def is_path(self):
+        return self.path
+
     def is_wall(self):
         return self.wall
 
