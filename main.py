@@ -72,9 +72,9 @@ def draw_grid(grid, screen):
     for row in range(0, HEIGHT, CELL_LENGTH):
         for col in range(0, HEIGHT, CELL_LENGTH):
             pygame.draw.rect(screen, grid[row//CELL_LENGTH][col//CELL_LENGTH].color, pygame.Rect(col, row, CELL_LENGTH, CELL_LENGTH))
-            # for text in AGENT_TEXT:
-            #     if text[1] == col and text[2] == row:
-            #         draw_agent_text(text[0], text[1], text[2], text[3], text[4])
+            for text in AGENT_TEXT:
+                if text[1] == col and text[2] == row:
+                    draw_agent_text(text[0], text[1], text[2], text[3], text[4])
 
 # erases any walls from the screen
 def clear_walls(grid):
@@ -201,10 +201,23 @@ def main():
                     for path in paths:
                         color = colors[paths.index(path)]
 
-                        for cell in path:
+                        for i in range(1, len(path)):
+                            cell = path[i]
                             x, y = cell.col, cell.row
-                            grid[y][x].make_normal()
-                            grid[y][x].make_path(color)
+
+                            if not grid[y][x].is_start() and not grid[y][x].is_end():
+                                grid[y][x].make_normal()
+                                grid[y][x].make_path(color)
+
+                            draw_grid(grid, screen)
+                            pygame.display.flip()
+                            pygame.time.delay(50)
+
+                            if i > 1:
+                                prev_cell = path[i - 1]
+                                x, y = prev_cell.col, prev_cell.row
+                                if not grid[y][x].is_start() or not grid[y][x].is_end():
+                                    grid[y][x].make_normal()
 
                             draw_grid(grid, screen)
                             pygame.display.flip()

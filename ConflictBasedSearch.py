@@ -36,7 +36,10 @@ def astar(grid, start, goal):
 
     while current != start:
         path.append(current)
-        current = came_from[current]
+        try:
+            current = came_from[current]
+        except:
+            return []
 
     path.append(start)
     path.reverse()
