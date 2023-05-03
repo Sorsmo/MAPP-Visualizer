@@ -72,9 +72,9 @@ def draw_grid(grid, screen):
     for row in range(0, HEIGHT, CELL_LENGTH):
         for col in range(0, HEIGHT, CELL_LENGTH):
             pygame.draw.rect(screen, grid[row//CELL_LENGTH][col//CELL_LENGTH].color, pygame.Rect(col, row, CELL_LENGTH, CELL_LENGTH))
-            for text in AGENT_TEXT:
-                if text[1] == col and text[2] == row:
-                    draw_agent_text(text[0], text[1], text[2], text[3], text[4])
+            # for text in AGENT_TEXT:
+            #     if text[1] == col and text[2] == row:
+            #         draw_agent_text(text[0], text[1], text[2], text[3], text[4])
 
 # erases any walls from the screen
 def clear_walls(grid):
@@ -196,9 +196,11 @@ def main():
                     CooperativeAStar()
                 if mouse_pos_x in range(HEIGHT, WIDTH) and mouse_pos_y in range(3*HEIGHT//4, 4*HEIGHT//4):
                     paths = ConflictedBasedSearch(grid, AGENTS)
+                    colors = [grid[AGENTS[i][0]][AGENTS[i][1]].color for i in range(0, len(AGENTS), 2)]
 
                     for path in paths:
-                        color = path[0].color
+                        color = colors[paths.index(path)]
+
                         for cell in path:
                             x, y = cell.col, cell.row
                             grid[y][x].make_normal()
@@ -206,9 +208,8 @@ def main():
 
                             draw_grid(grid, screen)
                             pygame.display.flip()
-                            pygame.time.delay(200)
+                            pygame.time.delay(50)
                             
-
             if event.type == pygame.MOUSEBUTTONUP:
                 dragging = False
 
