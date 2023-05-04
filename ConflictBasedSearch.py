@@ -6,7 +6,9 @@ def ConflictedBasedSearch(grid, agents):
     for i in range(0, len(agents), 2):
         agent_start = grid[agents[i][0]][agents[i][1]]
         agent_end = grid[agents[i + 1][0]][agents[i + 1][1]]
-        paths.append(astar(grid, agent_start, agent_end))
+        paths.append(astar(grid, agent_start, agent_end)) ## got paths here
+        ## fix conflicts here plan is to make the conflicted agent wait
+        
     return paths
 
 def astar(grid, start, goal):

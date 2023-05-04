@@ -18,6 +18,7 @@ CELL_LENGTH = HEIGHT // SIZE    # number of pixels per cell
 NUM_AGENTS = 2                  # number of agents to be generated
 AGENT_TEXT = []                 # information arrays for displaying text of start/end points
 AGENTS = []
+ANIMATION_DELAY = 75            # delay between each step of the algorithm
 
 # Creates a 2D Array representation of the screen
 # Made up of Cells w/ properties in cell.py
@@ -161,6 +162,30 @@ def setup_screen(screen):
     cbs_rect = pygame.draw.rect(screen, (92, 102, 128), pygame.Rect(HEIGHT, 3*HEIGHT//4, 12*CELL_LENGTH, 3*CELL_LENGTH))
     screen.blit(cbs_text, cbs_rect)
 
+def updateGrid(grid, color, path, step, screen):
+    if step >= len(path):
+        return 1 # done
+    cell = path[step]
+    x, y = cell.col, cell.row
+    if not grid[y][x].is_start() and not grid[y][x].is_end():
+        grid[y][x].make_normal()
+        grid[y][x].make_path(color)
+    draw_grid(grid, screen)
+    pygame.display.flip()
+    pygame.time.delay(ANIMATION_DELAY)
+
+    if step > 1:
+        prev_cell = path[step - 1]
+        x, y = prev_cell.col, prev_cell.row
+        if not grid[y][x].is_start() or not grid[y][x].is_end():
+            grid[y][x].make_normal()
+
+    draw_grid(grid, screen)
+    pygame.display.flip()
+    pygame.time.delay(ANIMATION_DELAY)
+    return 0 # not done
+
+
 def main():
     pygame.init()
     pygame.display.set_caption("Multi-Agent Path Planning Visualizer (MAPPV)")
@@ -198,30 +223,15 @@ def main():
                     paths = ConflictedBasedSearch(grid, AGENTS)
                     colors = [grid[AGENTS[i][0]][AGENTS[i][1]].color for i in range(0, len(AGENTS), 2)]
 
-                    for path in paths:
-                        color = colors[paths.index(path)]
+                    done = 0
+                    step = 0
+                    while done != len(paths): # done has to be = to 2 for 2 agents
+                        done = 0
+                        for i in range(len(paths)):
+                            done += updateGrid(grid, colors[i], paths[i], step, screen)
+                        step += 1 
 
-                        for i in range(1, len(path)):
-                            cell = path[i]
-                            x, y = cell.col, cell.row
-
-                            if not grid[y][x].is_start() and not grid[y][x].is_end():
-                                grid[y][x].make_normal()
-                                grid[y][x].make_path(color)
-
-                            draw_grid(grid, screen)
-                            pygame.display.flip()
-                            pygame.time.delay(50)
-
-                            if i > 1:
-                                prev_cell = path[i - 1]
-                                x, y = prev_cell.col, prev_cell.row
-                                if not grid[y][x].is_start() or not grid[y][x].is_end():
-                                    grid[y][x].make_normal()
-
-                            draw_grid(grid, screen)
-                            pygame.display.flip()
-                            pygame.time.delay(50)
+                    
                             
             if event.type == pygame.MOUSEBUTTONUP:
                 dragging = False
