@@ -8,8 +8,11 @@ Created by Ian Sornson (gis3), Anes Kim (anesk2), and Akaash Kashyap (akash8)
 # Installation
 
 Clone the repository with `git clone https://github.com/Sorsmo/MAPP-Visualizer.git`
+
 Install PyGame with `pip install pygame` or `pip3 install pygame`
+
 cd into your new directory and run main.py 
+
 Adjust the number of agents / size of grid with the global variables at the top of main.py
 
 # Features
