@@ -1,6 +1,6 @@
 ## Week 1 [4/9/23 - 4/16/23)
 
-Ian developed the base of the GUI in PyGame. Features include wall creation, agent randomization, and the buttons to clear, randomize, and run both the algorithms in the future. Academic papers from David Silver were read as they contained the theoretical approach we planned to take for both of the algorithms.
+Ian developed the base of the GUI in PyGame. Features include wall creation, agent randomization, and the buttons to clear, randomize, and run both the algorithms in the future. A cell.py class was created in order to easily represent the squares of our grid. Cells help in the animation of the algorithms as well as they contain properties to describe themselves as paths, walls, agents, or empty. Academic papers from David Silver were read as they contained the theoretical approach we planned to take for both of the algorithms.
 
 ## Week 2 [4/16/23 - 4/23/23)
 
