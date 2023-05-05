@@ -10,6 +10,6 @@ Not a lot was accomplished this week. Ian made some quality of life improvements
 
 Group members were extremely busy this week so no work was done. Anes and Akash were in Dallas from the 26th to the 30th for Vex Robotics Worlds. We made a concrete plan since this took away from a whole week of development. Coming back, the Coop A* algorithm would be Anes's workstream and Akash would take on CBS.
 
-## Week 4 [4/30/23 - 5/4/23)
+## Week 4 [4/30/23 - 5/6/23)
 
 Final week of development, Ian implemented an A* helper method since both algorithms utilize it and made some small QoL adjustments to GUI again. Anes and Akash worked on their respective implementations. Ian worked on putting together the github for turning the project in a human-readable way.
