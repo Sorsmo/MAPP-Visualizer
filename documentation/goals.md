@@ -1,14 +1,14 @@
 ## Original Goals
 
-1. GUI
-    Set up start/end points
-    Select number of agents
-    Create walls/obstacles
-    Pick path planning alogirthm
-    Visualize the algorithm(s)
-2. Cooperative A*
-3. Conflict-Based Search
-4. 3D representation of the path planning using x, y, and time axises (only if time permits)
+    GUI
+        Set up start/end points
+        Select number of agents
+        Create walls/obstacles
+        Pick path planning alogirthm
+        Visualize the algorithm(s)
+    Cooperative A*
+    Conflict-Based Search
+    3D representation of the path planning using x, y, and time axises (only if time permits)
 
 ## Dataset Acquisition and Processing
     No dataset
