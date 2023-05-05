@@ -12,4 +12,4 @@ Group members were extremely busy this week so no work was done. Anes and Akash 
 
 ## Week 4 [4/30/23 - 5/6/23)
 
-Final week of development, Ian implemented an A* helper method since both algorithms utilize it and made some small QoL adjustments to GUI again. Anes and Akash worked on their respective implementations. Ian worked on putting together the github for turning the project in a human-readable way.
+Final week of development, Ian implemented an A* helper method since both algorithms utilize it and made some small QoL adjustments to GUI again. A* is implemented using a Priority Queue and a simple distance heuristic as its cost function. Anes and Akash worked on their respective implementations. Ian worked on putting together the github for turning the project in a human-readable way.
