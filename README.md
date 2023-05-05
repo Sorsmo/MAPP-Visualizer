@@ -9,6 +9,13 @@ Created by Ian Sornson (gis3), Anes Kim (anesk2), and Akaash Kashyap (akash8)
 
 ## Original Goals:
 
+## Team Contract:
+
+## Dev Log:
+
+## Results:
+
+
 # Installation & Setup
 
 Clone the repository with `git clone https://github.com/Sorsmo/MAPP-Visualizer.git`
