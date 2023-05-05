@@ -1,11 +1,15 @@
-# Multi-Agent Path Planning Visualizer (MAPPV)
+## Multi-Agent Path Planning Visualizer (MAPPV)
 Visualize Cooperative A* and Conflict-Based Search with PyGame
 
 Created by Ian Sornson (gis3), Anes Kim (anesk2), and Akaash Kashyap (akash8)
 
-# Link to video presentation
+## Link to video presentation
 
-# Installation
+## Documentation
+
+# Original Goals:
+
+## Installation & Setup
 
 Clone the repository with `git clone https://github.com/Sorsmo/MAPP-Visualizer.git`
 
@@ -15,7 +19,7 @@ cd into your new directory and run main.py
 
 Adjust the number of agents / size of grid with the global variables at the top of main.py
 
-# Features
+## Features
 
 The PyGame visualizer allows the user to draw walls/obstacles on the screen to create intricate scenarios
 Buttons on the right side of the screen include options to clear the walls currently on screen, randomize the agent stat and end points, and pick with algorithm to run
@@ -23,7 +27,7 @@ Buttons on the right side of the screen include options to clear the walls curre
 The user has access to two different algorithms, Cooperative A* and Conflict-Based Search
 Both algorithms utilize A* as a helper function
 
-# File Breakdown
+## File Breakdown
 
 1. main.py
     - Contains all the PyGame code to visualize our two algorithms
