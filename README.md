@@ -7,14 +7,13 @@ Created by Ian Sornson (gis3), Anes Kim (anesk2), and Akaash Kashyap (akash8)
 
 # Documentation
 
-## Original Goals:
+[Original Goals](https://github.com/Sorsmo/MAPP-Visualizer/blob/main/documentation/contract.md)
 
-## Team Contract:
+Team Contract:
 
-## Dev Log:
+Dev Log:
 
-## Results:
-
+Results:
 
 # Installation & Setup
 
