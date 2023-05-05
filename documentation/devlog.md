@@ -1,6 +1,6 @@
 ## Week 1 [4/9/23 - 4/16/23)
 
-Ian developed the base of the GUI in PyGame. Features include wall creation, agent randomization, and the buttons to clear, randomize, and run both the algorithms in the future.f
+Ian developed the base of the GUI in PyGame. Features include wall creation, agent randomization, and the buttons to clear, randomize, and run both the algorithms in the future. Academic papers from David Silver were read as they contained the theoretical approach we planned to take for both of the algorithms.
 
 ## Week 2 [4/16/23 - 4/23/23)
 
@@ -12,5 +12,4 @@ Group members were extremely busy this week so no work was done. Anes and Akash 
 
 ## Week 4 [4/30/23 - 5/4/23)
 
-Final week of development, Ian implemented an A* helper method since both algorithms utilize it and made some small QoL adjustments to GUI again. Anes and Akash worked on their respective implementations.
-Ian worked on putting together the github for turning the project in.
+Final week of development, Ian implemented an A* helper method since both algorithms utilize it and made some small QoL adjustments to GUI again. Anes and Akash worked on their respective implementations. Ian worked on putting together the github for turning the project in a human-readable way.
