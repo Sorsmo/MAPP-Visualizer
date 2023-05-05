@@ -218,7 +218,7 @@ def main():
                 if mouse_pos_x in range(HEIGHT, WIDTH) and mouse_pos_y in range(1*HEIGHT//4, 2*HEIGHT//4):
                     randomize(grid, screen, SIZE, SIZE)
                 if mouse_pos_x in range(HEIGHT, WIDTH) and mouse_pos_y in range(2*HEIGHT//4, 3*HEIGHT//4):
-                    CooperativeAStar()
+                    CooperativeAStar(grid, AGENTS)
                 if mouse_pos_x in range(HEIGHT, WIDTH) and mouse_pos_y in range(3*HEIGHT//4, 4*HEIGHT//4):
                     paths = ConflictedBasedSearch(grid, AGENTS)
                     colors = [grid[AGENTS[i][0]][AGENTS[i][1]].color for i in range(0, len(AGENTS), 2)]
