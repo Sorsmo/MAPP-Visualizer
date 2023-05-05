@@ -31,6 +31,7 @@ The PyGame visualizer allows the user to draw walls/obstacles on the screen to c
 Buttons on the right side of the screen include options to clear the walls currently on screen, randomize the agent stat and end points, and pick with algorithm to run
 
 The user has access to two different algorithms, Cooperative A* and Conflict-Based Search
+
 Both algorithms utilize A* as a helper function
 
 # File Breakdown
