@@ -16,7 +16,7 @@ def CooperativeAStar(grid, AGENTS):
         for j in range(len(paths[i])):
             if j < len(paths[i]):
                 if paths[i][j] == paths[i][j] and j != 0:
-                    lengthen = paths[i][:j] + [paths[i][j]] + [paths[i][j]] + [paths[i][j]] + paths[i][j:]
+                    lengthen = paths[i][:j] + [paths[i][j]] + paths[i][j:]
                     paths[i] = lengthen
                     break
 

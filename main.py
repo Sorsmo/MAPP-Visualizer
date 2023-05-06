@@ -13,7 +13,7 @@ from ConflictBasedSearch import ConflictedBasedSearch
 # GLOBAL VARIABLES
 WIDTH = 1080
 HEIGHT = 720
-SIZE = 9                        # Bigger SIZE --> Smaller tiles (best if multiple of HEIGHT)
+SIZE = 15                        # Bigger SIZE --> Smaller tiles (best if multiple of HEIGHT)
 CELL_LENGTH = HEIGHT // SIZE    # number of pixels per cell
 NUM_AGENTS = 4                  # number of agents to be generated
 AGENT_TEXT = []                 # information arrays for displaying text of start/end points
@@ -147,19 +147,19 @@ def draw_wall(grid):
 def setup_screen(screen):
     font = pygame.font.Font('freesansbold.ttf', 64)
     clear_text = font.render('Clear', True, (255, 255, 255), (32, 42, 68))
-    clear_rect = pygame.draw.rect(screen, (32, 42, 68), pygame.Rect(HEIGHT, 0*HEIGHT//4, 12*CELL_LENGTH, 3*CELL_LENGTH))
+    clear_rect = pygame.draw.rect(screen, (32, 42, 68), pygame.Rect(HEIGHT, 0*HEIGHT//4, 12*CELL_LENGTH, 180))
     screen.blit(clear_text, clear_rect)
 
     rand_text = font.render('Randomize', True, (255, 255, 255), (52, 62, 88))
-    rand_rect = pygame.draw.rect(screen, (52, 62, 88), pygame.Rect(HEIGHT, 1*HEIGHT//4, 12*CELL_LENGTH, 3*CELL_LENGTH))
+    rand_rect = pygame.draw.rect(screen, (52, 62, 88), pygame.Rect(HEIGHT, 1*HEIGHT//4, 12*CELL_LENGTH, 180))
     screen.blit(rand_text, rand_rect)
 
     coop_text = font.render('Coop A*', True, (255, 255, 255), (72, 82, 108))
-    coop_rect = pygame.draw.rect(screen, (72, 82, 108), pygame.Rect(HEIGHT, 2*HEIGHT//4, 12*CELL_LENGTH, 3*CELL_LENGTH))
+    coop_rect = pygame.draw.rect(screen, (72, 82, 108), pygame.Rect(HEIGHT, 2*HEIGHT//4, 12*CELL_LENGTH, 180))
     screen.blit(coop_text, coop_rect)
 
     cbs_text = font.render('CBS', True, (255, 255, 255), (92, 102, 128))
-    cbs_rect = pygame.draw.rect(screen, (92, 102, 128), pygame.Rect(HEIGHT, 3*HEIGHT//4, 12*CELL_LENGTH, 3*CELL_LENGTH))
+    cbs_rect = pygame.draw.rect(screen, (92, 102, 128), pygame.Rect(HEIGHT, 3*HEIGHT//4, 12*CELL_LENGTH, 180))
     screen.blit(cbs_text, cbs_rect)
 
 def updateGrid(grid, color, path, step, screen):
