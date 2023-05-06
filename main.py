@@ -1,8 +1,3 @@
-# TODO:
-# The buttons / text do not scale with a change in size
-# better colors
-# center text
-
 import pygame
 import random
 
@@ -179,9 +174,6 @@ def updateGrid(grid, color, path, step, screen):
     if not grid[y][x].is_start() and not grid[y][x].is_end():
         grid[y][x].make_normal()
         grid[y][x].make_path(color)
-    #draw_grid(grid, screen)
-    #pygame.display.flip()
-    #pygame.time.delay(ANIMATION_DELAY)
 
     if step > 1:
         prev_cell = path[step - 1]
@@ -262,10 +254,6 @@ def main():
                         done = updateScreen(grid, colors, paths, step, screen) # update grid at each time interval
                         step += 1 
 
-                    """for i in range(len(paths)):
-                        for j in range(len(paths[i])):
-                            if (paths[i][j].is_wall()):
-                                paths[i][j].make_normal() """
                 if mouse_pos_x in range(HEIGHT, WIDTH) and mouse_pos_y in range(540, 720):
                     paths = ConflictedBasedSearch(grid, AGENTS)
                     colors = [grid[AGENTS[i][0]][AGENTS[i][1]].color for i in range(0, len(AGENTS), 2)]
@@ -279,9 +267,7 @@ def main():
                         done = 0
                         done = updateScreen(grid, colors, paths, step, screen) # update grid at each time interval
                         step += 1 
-
-                    
-                            
+           
             if event.type == pygame.MOUSEBUTTONUP:
                 dragging = False
 
