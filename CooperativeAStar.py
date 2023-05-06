@@ -1,25 +1,28 @@
 # Anes
 from queue import PriorityQueue
+import hashlib
 
-def CooperativeAStar(grid, agents):
+def CooperativeAStar(grid, AGENTS):
     paths = []
-    for i in range(0, len(agents), 2):
-        agent_start = grid[agents[i][0]][agents[i][1]]
-        agent_end = grid[agents[i + 1][0]][agents[i + 1][1]]
-        path = astar(grid, agent_start, agent_end)
+    agent_hashes = [set() for _ in AGENTS]
+
+    for i in range(0, len(AGENTS), 2):
+        agent_start = grid[AGENTS[i][0]][AGENTS[i][1]]
+        agent_end = grid[AGENTS[i + 1][0]][AGENTS[i + 1][1]]
+        path = astar(grid, agent_start, agent_end, agent_hashes[i])
         paths.append(path) 
-        block_path(path, grid, agents[i])
     
+    for i in range (1, len(paths) - 1):
+        for j in range(len(paths[i])):
+            if j < len(paths[i]):
+                if paths[i][j] == paths[i][j] and j != 0:
+                    lengthen = paths[i][:j] + [paths[i][j]] + [paths[i][j]] + [paths[i][j]] + paths[i][j:]
+                    paths[i] = lengthen
+                    break
+
     return paths
 
-
-# so that one path cannot collide with other
-def block_path(path, grid, agents):
-   colors = grid[agents[0]][agents[1]].color
-   for i in range(len(path)):
-       path[i].make_wall(colors)
-
-def astar(grid, start, goal):
+def astar(grid, start, goal, agent_hash):
     frontier = PriorityQueue()
     frontier.put((0, start))
     came_from = {start: None}
@@ -36,10 +39,19 @@ def astar(grid, start, goal):
             tentative_g_score = g_score[current] + get_cost(current, neighbor)
 
             if neighbor not in g_score or tentative_g_score < g_score[neighbor]:
+                agent_state = tuple([(cell.col, cell.row) for cell in (neighbor, goal)])
+                agent_hash_code = hashlib.md5(str(agent_state).encode()).hexdigest()
+                
+                if agent_hash_code in agent_hash:
+                    continue
+
                 came_from[neighbor] = current
                 g_score[neighbor] = tentative_g_score
                 f_score[neighbor] = g_score[neighbor] + heuristic(neighbor, goal)
                 frontier.put((f_score[neighbor], neighbor))
+
+                # Add the hash code to the agent's hash table
+                agent_hash.add(agent_hash_code)
 
     path = []
     current = goal
@@ -55,6 +67,14 @@ def astar(grid, start, goal):
     path.reverse()
 
     return path
+
+
+# so that one path cannot collide with other
+"""def block_path(path, grid, agents):
+   colors = grid[agents[0]][agents[1]].color
+   for i in range(1, len(path) - 1):
+       path[i].make_wall(colors)"""
+
 
 def heuristic(neighbor, goal):
     x1, y1 = neighbor.col, neighbor.row
