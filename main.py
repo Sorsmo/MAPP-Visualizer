@@ -191,7 +191,7 @@ def updateGrid(grid, color, path, step, screen):
 
     return 0 # not done
 
-# sets up agent numbers and cell sizes
+# sets up agent numbers and cell size
 def main_prolouge():
     global NUM_AGENTS
     global SIZE

@@ -3,6 +3,7 @@ from queue import PriorityQueue
 import hashlib
 
 def CooperativeAStar(grid, AGENTS):
+    # uses hash to keep track of each path
     paths = []
     agent_hashes = [set() for _ in AGENTS]
 
@@ -11,18 +12,21 @@ def CooperativeAStar(grid, AGENTS):
         agent_end = grid[AGENTS[i + 1][0]][AGENTS[i + 1][1]]
         path = astar(grid, agent_start, agent_end, agent_hashes[i])
         paths.append(path) 
-    
+
     for i in range (1, len(paths) - 1):
         for j in range(len(paths[i])):
             if j < len(paths[i]):
                 if paths[i][j] == paths[i][j] and j != 0:
+                    # if paths overlap, previous one gets priority, next gets delayed
                     lengthen = paths[i][:j] + [paths[i][j]] + paths[i][j:]
                     paths[i] = lengthen
                     break
 
     return paths
 
+
 def astar(grid, start, goal, agent_hash):
+    # astar implementation with hash incorporations
     frontier = PriorityQueue()
     frontier.put((0, start))
     came_from = {start: None}
@@ -39,6 +43,7 @@ def astar(grid, start, goal, agent_hash):
             tentative_g_score = g_score[current] + get_cost(current, neighbor)
 
             if neighbor not in g_score or tentative_g_score < g_score[neighbor]:
+                # hash table reservation
                 agent_state = tuple([(cell.col, cell.row) for cell in (neighbor, goal)])
                 agent_hash_code = hashlib.md5(str(agent_state).encode()).hexdigest()
                 
@@ -50,7 +55,7 @@ def astar(grid, start, goal, agent_hash):
                 f_score[neighbor] = g_score[neighbor] + heuristic(neighbor, goal)
                 frontier.put((f_score[neighbor], neighbor))
 
-                # Add the hash code to the agent's hash table
+                # add the hash code to the agent's hash table
                 agent_hash.add(agent_hash_code)
 
     path = []
@@ -69,13 +74,6 @@ def astar(grid, start, goal, agent_hash):
     return path
 
 
-# so that one path cannot collide with other
-"""def block_path(path, grid, agents):
-   colors = grid[agents[0]][agents[1]].color
-   for i in range(1, len(path) - 1):
-       path[i].make_wall(colors)"""
-
-
 def heuristic(neighbor, goal):
     x1, y1 = neighbor.col, neighbor.row
     x2, y2 = goal.col, goal.row
@@ -84,7 +82,7 @@ def heuristic(neighbor, goal):
 def get_neighbors(grid, cell):
     neighbors = []
     x, y = cell.col, cell.row
-
+    # priority based for optimal path
     if x > 0 and not grid[y][x - 1].is_wall():
         neighbors.append(grid[y][x - 1])
     if x < len(grid[0]) - 1 and not grid[y][x + 1].is_wall():
