@@ -13,12 +13,10 @@ from ConflictBasedSearch import ConflictedBasedSearch
 # GLOBAL VARIABLES
 WIDTH = 1080
 HEIGHT = 720
-SIZE = 9                        # Bigger SIZE --> Smaller tiles (best if multiple of HEIGHT)
-CELL_LENGTH = HEIGHT // SIZE    # number of pixels per cell
-NUM_AGENTS = 4                  # number of agents to be generated
+NUM_AGENTS = 2                  # number of agents to be generated
 AGENT_TEXT = []                 # information arrays for displaying text of start/end points
 AGENTS = []
-ANIMATION_DELAY = 200           # delay between each step of the algorithm
+ANIMATION_DELAY = 400           # delay between each step of the algorithm
 
 # Creates a 2D Array representation of the screen
 # Made up of Cells w/ properties in cell.py
@@ -147,21 +145,22 @@ def draw_wall(grid):
 def setup_screen(screen):
     font = pygame.font.Font('freesansbold.ttf', 64)
     clear_text = font.render('Clear', True, (255, 255, 255), (32, 42, 68))
-    clear_rect = pygame.draw.rect(screen, (32, 42, 68), pygame.Rect(HEIGHT, 0*HEIGHT//4, 12*CELL_LENGTH, 3*CELL_LENGTH))
+    clear_rect = pygame.draw.rect(screen, (32, 42, 68), pygame.Rect(HEIGHT, 0*HEIGHT//4, 12*CELL_LENGTH, 180))
     screen.blit(clear_text, clear_rect)
 
     rand_text = font.render('Randomize', True, (255, 255, 255), (52, 62, 88))
-    rand_rect = pygame.draw.rect(screen, (52, 62, 88), pygame.Rect(HEIGHT, 1*HEIGHT//4, 12*CELL_LENGTH, 3*CELL_LENGTH))
+    rand_rect = pygame.draw.rect(screen, (52, 62, 88), pygame.Rect(HEIGHT, 1*HEIGHT//4, 12*CELL_LENGTH, 180))
     screen.blit(rand_text, rand_rect)
 
     coop_text = font.render('Coop A*', True, (255, 255, 255), (72, 82, 108))
-    coop_rect = pygame.draw.rect(screen, (72, 82, 108), pygame.Rect(HEIGHT, 2*HEIGHT//4, 12*CELL_LENGTH, 3*CELL_LENGTH))
+    coop_rect = pygame.draw.rect(screen, (72, 82, 108), pygame.Rect(HEIGHT, 2*HEIGHT//4, 12*CELL_LENGTH, 180))
     screen.blit(coop_text, coop_rect)
 
     cbs_text = font.render('CBS', True, (255, 255, 255), (92, 102, 128))
-    cbs_rect = pygame.draw.rect(screen, (92, 102, 128), pygame.Rect(HEIGHT, 3*HEIGHT//4, 12*CELL_LENGTH, 3*CELL_LENGTH))
+    cbs_rect = pygame.draw.rect(screen, (92, 102, 128), pygame.Rect(HEIGHT, 3*HEIGHT//4, 12*CELL_LENGTH, 180))
     screen.blit(cbs_text, cbs_rect)
 
+# helper function for drawing to the screen
 def updateScreen(grid, colors, paths, step, screen):
     done = 0
     for i in range(len(paths)):
@@ -192,7 +191,34 @@ def updateGrid(grid, color, path, step, screen):
 
     return 0 # not done
 
+# sets up agent numbers and cell size
+def main_prolouge():
+    global NUM_AGENTS
+    global SIZE
+    global CELL_LENGTH
 
+    size_str = ''
+    sizes = ['small', 'medium', 'large']
+    
+    NUM_AGENTS = int(input("How many agents do you want on screen? "))
+
+    i = 0
+    while size_str not in sizes:
+        if i > 0:
+            print('Incorrect input, please try again.')
+        size_str = input("Do you want a small, medium, or large grid? ").lower()
+        i += 1
+
+    if size_str == 'small':
+        SIZE = 9
+    elif size_str == 'medium':
+        SIZE = 15
+    elif size_str == 'large':
+        SIZE = 24
+
+    CELL_LENGTH = HEIGHT // SIZE
+
+    main()
 
 def main():
     pygame.init()
@@ -221,11 +247,11 @@ def main():
                 mouse_pos_x = pygame.mouse.get_pos()[0]
                 mouse_pos_y = pygame.mouse.get_pos()[1]
 
-                if mouse_pos_x in range(HEIGHT, WIDTH) and mouse_pos_y in range(0*HEIGHT//4, 1*HEIGHT//4):
+                if mouse_pos_x in range(HEIGHT, WIDTH) and mouse_pos_y in range(0, 180):
                     clear_walls(grid)
-                if mouse_pos_x in range(HEIGHT, WIDTH) and mouse_pos_y in range(1*HEIGHT//4, 2*HEIGHT//4):
+                if mouse_pos_x in range(HEIGHT, WIDTH) and mouse_pos_y in range(180, 360):
                     randomize(grid, screen, SIZE, SIZE)
-                if mouse_pos_x in range(HEIGHT, WIDTH) and mouse_pos_y in range(2*HEIGHT//4, 3*HEIGHT//4):
+                if mouse_pos_x in range(HEIGHT, WIDTH) and mouse_pos_y in range(360, 540):
                     paths = CooperativeAStar(grid, AGENTS)
                     colors = [grid[AGENTS[i][0]][AGENTS[i][1]].color for i in range(0, len(AGENTS), 2)]
 
@@ -240,7 +266,7 @@ def main():
                         for j in range(len(paths[i])):
                             if (paths[i][j].is_wall()):
                                 paths[i][j].make_normal() """
-                if mouse_pos_x in range(HEIGHT, WIDTH) and mouse_pos_y in range(3*HEIGHT//4, 4*HEIGHT//4):
+                if mouse_pos_x in range(HEIGHT, WIDTH) and mouse_pos_y in range(540, 720):
                     paths = ConflictedBasedSearch(grid, AGENTS)
                     colors = [grid[AGENTS[i][0]][AGENTS[i][1]].color for i in range(0, len(AGENTS), 2)]
                     print('printed paths')
@@ -269,4 +295,4 @@ def main():
 
     pygame.quit()
     
-main()
+main_prolouge()

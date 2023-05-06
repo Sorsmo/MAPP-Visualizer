@@ -55,11 +55,6 @@ def ICanFixConflicts(paths, flag):
 
 
 
-
-
-
-
-
 def astar(grid, start, goal):
     frontier = PriorityQueue()
     frontier.put((0, start))
