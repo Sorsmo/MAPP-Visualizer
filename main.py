@@ -15,7 +15,7 @@ WIDTH = 1080
 HEIGHT = 720
 SIZE = 9                        # Bigger SIZE --> Smaller tiles (best if multiple of HEIGHT)
 CELL_LENGTH = HEIGHT // SIZE    # number of pixels per cell
-NUM_AGENTS = 2                  # number of agents to be generated
+NUM_AGENTS = 4                  # number of agents to be generated
 AGENT_TEXT = []                 # information arrays for displaying text of start/end points
 AGENTS = []
 ANIMATION_DELAY = 200           # delay between each step of the algorithm
@@ -226,7 +226,21 @@ def main():
                 if mouse_pos_x in range(HEIGHT, WIDTH) and mouse_pos_y in range(1*HEIGHT//4, 2*HEIGHT//4):
                     randomize(grid, screen, SIZE, SIZE)
                 if mouse_pos_x in range(HEIGHT, WIDTH) and mouse_pos_y in range(2*HEIGHT//4, 3*HEIGHT//4):
-                    CooperativeAStar()
+                    paths = CooperativeAStar(grid, AGENTS)
+                    colors = [grid[AGENTS[i][0]][AGENTS[i][1]].color for i in range(0, len(AGENTS), 2)]
+
+                    done = 0
+                    step = 0
+                    while done != len(paths): # done has to be = to 2 for 2 agents
+                        done = 0
+                        for i in range(len(paths)):
+                            done += updateGrid(grid, colors[i], paths[i], step, screen)
+                        step += 1
+
+                    """for i in range(len(paths)):
+                        for j in range(len(paths[i])):
+                            if (paths[i][j].is_wall()):
+                                paths[i][j].make_normal() """
                 if mouse_pos_x in range(HEIGHT, WIDTH) and mouse_pos_y in range(3*HEIGHT//4, 4*HEIGHT//4):
                     paths = ConflictedBasedSearch(grid, AGENTS)
                     colors = [grid[AGENTS[i][0]][AGENTS[i][1]].color for i in range(0, len(AGENTS), 2)]
