@@ -18,7 +18,7 @@ CELL_LENGTH = HEIGHT // SIZE    # number of pixels per cell
 NUM_AGENTS = 4                  # number of agents to be generated
 AGENT_TEXT = []                 # information arrays for displaying text of start/end points
 AGENTS = []
-ANIMATION_DELAY = 75            # delay between each step of the algorithm
+ANIMATION_DELAY = 200           # delay between each step of the algorithm
 
 # Creates a 2D Array representation of the screen
 # Made up of Cells w/ properties in cell.py
@@ -162,6 +162,16 @@ def setup_screen(screen):
     cbs_rect = pygame.draw.rect(screen, (92, 102, 128), pygame.Rect(HEIGHT, 3*HEIGHT//4, 12*CELL_LENGTH, 180))
     screen.blit(cbs_text, cbs_rect)
 
+def updateScreen(grid, colors, paths, step, screen):
+    done = 0
+    for i in range(len(paths)):
+        done += updateGrid(grid, colors[i], paths[i], step, screen)
+    draw_grid(grid, screen)
+    pygame.display.flip()
+    pygame.time.delay(ANIMATION_DELAY)
+    return done
+
+# updates the grid with the path but does not update the screen
 def updateGrid(grid, color, path, step, screen):
     if step >= len(path):
         return 1 # done
@@ -170,9 +180,9 @@ def updateGrid(grid, color, path, step, screen):
     if not grid[y][x].is_start() and not grid[y][x].is_end():
         grid[y][x].make_normal()
         grid[y][x].make_path(color)
-    draw_grid(grid, screen)
-    pygame.display.flip()
-    pygame.time.delay(ANIMATION_DELAY)
+    #draw_grid(grid, screen)
+    #pygame.display.flip()
+    #pygame.time.delay(ANIMATION_DELAY)
 
     if step > 1:
         prev_cell = path[step - 1]
@@ -180,10 +190,8 @@ def updateGrid(grid, color, path, step, screen):
         if not grid[y][x].is_start() or not grid[y][x].is_end():
             grid[y][x].make_normal()
 
-    draw_grid(grid, screen)
-    pygame.display.flip()
-    pygame.time.delay(ANIMATION_DELAY)
     return 0 # not done
+
 
 
 def main():
@@ -225,9 +233,8 @@ def main():
                     step = 0
                     while done != len(paths): # done has to be = to 2 for 2 agents
                         done = 0
-                        for i in range(len(paths)):
-                            done += updateGrid(grid, colors[i], paths[i], step, screen)
-                        step += 1
+                        done = updateScreen(grid, colors, paths, step, screen) # update grid at each time interval
+                        step += 1 
 
                     """for i in range(len(paths)):
                         for j in range(len(paths[i])):
@@ -236,13 +243,15 @@ def main():
                 if mouse_pos_x in range(HEIGHT, WIDTH) and mouse_pos_y in range(3*HEIGHT//4, 4*HEIGHT//4):
                     paths = ConflictedBasedSearch(grid, AGENTS)
                     colors = [grid[AGENTS[i][0]][AGENTS[i][1]].color for i in range(0, len(AGENTS), 2)]
-
+                    print('printed paths')
+                    for p0, p1 in zip(paths[0], paths[1]):
+                        print(p0.pos(), p1.pos())
+                              
                     done = 0
                     step = 0
                     while done != len(paths): # done has to be = to 2 for 2 agents
                         done = 0
-                        for i in range(len(paths)):
-                            done += updateGrid(grid, colors[i], paths[i], step, screen)
+                        done = updateScreen(grid, colors, paths, step, screen) # update grid at each time interval
                         step += 1 
 
                     
