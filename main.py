@@ -13,12 +13,10 @@ from ConflictBasedSearch import ConflictedBasedSearch
 # GLOBAL VARIABLES
 WIDTH = 1080
 HEIGHT = 720
-SIZE = 9                        # Bigger SIZE --> Smaller tiles (best if multiple of HEIGHT)
-CELL_LENGTH = HEIGHT // SIZE    # number of pixels per cell
 NUM_AGENTS = 2                  # number of agents to be generated
 AGENT_TEXT = []                 # information arrays for displaying text of start/end points
 AGENTS = []
-ANIMATION_DELAY = 75            # delay between each step of the algorithm
+ANIMATION_DELAY = 400           # delay between each step of the algorithm
 
 # Creates a 2D Array representation of the screen
 # Made up of Cells w/ properties in cell.py
@@ -147,22 +145,32 @@ def draw_wall(grid):
 def setup_screen(screen):
     font = pygame.font.Font('freesansbold.ttf', 64)
     clear_text = font.render('Clear', True, (255, 255, 255), (32, 42, 68))
-    clear_rect = pygame.draw.rect(screen, (32, 42, 68), pygame.Rect(HEIGHT, 0*HEIGHT//4, 12*CELL_LENGTH, 3*CELL_LENGTH))
+    clear_rect = pygame.draw.rect(screen, (32, 42, 68), pygame.Rect(HEIGHT, 0*HEIGHT//4, 12*CELL_LENGTH, 180))
     screen.blit(clear_text, clear_rect)
 
     rand_text = font.render('Randomize', True, (255, 255, 255), (52, 62, 88))
-    rand_rect = pygame.draw.rect(screen, (52, 62, 88), pygame.Rect(HEIGHT, 1*HEIGHT//4, 12*CELL_LENGTH, 3*CELL_LENGTH))
+    rand_rect = pygame.draw.rect(screen, (52, 62, 88), pygame.Rect(HEIGHT, 1*HEIGHT//4, 12*CELL_LENGTH, 180))
     screen.blit(rand_text, rand_rect)
 
     coop_text = font.render('Coop A*', True, (255, 255, 255), (72, 82, 108))
-    coop_rect = pygame.draw.rect(screen, (72, 82, 108), pygame.Rect(HEIGHT, 2*HEIGHT//4, 12*CELL_LENGTH, 3*CELL_LENGTH))
+    coop_rect = pygame.draw.rect(screen, (72, 82, 108), pygame.Rect(HEIGHT, 2*HEIGHT//4, 12*CELL_LENGTH, 180))
     screen.blit(coop_text, coop_rect)
 
     cbs_text = font.render('CBS', True, (255, 255, 255), (92, 102, 128))
-    cbs_rect = pygame.draw.rect(screen, (92, 102, 128), pygame.Rect(HEIGHT, 3*HEIGHT//4, 12*CELL_LENGTH, 3*CELL_LENGTH))
+    cbs_rect = pygame.draw.rect(screen, (92, 102, 128), pygame.Rect(HEIGHT, 3*HEIGHT//4, 12*CELL_LENGTH, 180))
     screen.blit(cbs_text, cbs_rect)
 
+# helper function for drawing to the screen
+def updateScreen(grid, colors, paths, step, screen):
+    done = 0
+    for i in range(len(paths)):
+        done += updateGrid(grid, colors[i], paths[i], step, screen)
+    draw_grid(grid, screen)
+    pygame.display.flip()
+    pygame.time.delay(ANIMATION_DELAY)
+    return done
 
+# updates the grid with the path but does not update the screen
 def updateGrid(grid, color, path, step, screen):
     if step >= len(path):
         return 1 # done
@@ -171,9 +179,9 @@ def updateGrid(grid, color, path, step, screen):
     if not grid[y][x].is_start() and not grid[y][x].is_end():
         grid[y][x].make_normal()
         grid[y][x].make_path(color)
-    draw_grid(grid, screen)
-    pygame.display.flip()
-    pygame.time.delay(ANIMATION_DELAY)
+    #draw_grid(grid, screen)
+    #pygame.display.flip()
+    #pygame.time.delay(ANIMATION_DELAY)
 
     if step > 1:
         prev_cell = path[step - 1]
@@ -181,10 +189,36 @@ def updateGrid(grid, color, path, step, screen):
         if not grid[y][x].is_start() or not grid[y][x].is_end():
             grid[y][x].make_normal()
 
-    draw_grid(grid, screen)
-    pygame.display.flip()
-    pygame.time.delay(ANIMATION_DELAY)
     return 0 # not done
+
+# sets up agent numbers and cell sizes
+def main_prolouge():
+    global NUM_AGENTS
+    global SIZE
+    global CELL_LENGTH
+
+    size_str = ''
+    sizes = ['small', 'medium', 'large']
+    
+    NUM_AGENTS = int(input("How many agents do you want on screen? "))
+
+    i = 0
+    while size_str not in sizes:
+        if i > 0:
+            print('Incorrect input, please try again.')
+        size_str = input("Do you want a small, medium, or large grid? ").lower()
+        i += 1
+
+    if size_str == 'small':
+        SIZE = 9
+    elif size_str == 'medium':
+        SIZE = 15
+    elif size_str == 'large':
+        SIZE = 24
+
+    CELL_LENGTH = HEIGHT // SIZE
+
+    main()
 
 def main():
     pygame.init()
@@ -228,18 +262,24 @@ def main():
                         for i in range(len(paths)):
                             done += updateGrid(grid, colors[i], paths[i], step, screen)
                         step += 1
-                        
+
+                    """for i in range(len(paths)):
+                        for j in range(len(paths[i])):
+                            if (paths[i][j].is_wall()):
+                                paths[i][j].make_normal() """
                 if mouse_pos_x in range(HEIGHT, WIDTH) and mouse_pos_y in range(3*HEIGHT//4, 4*HEIGHT//4):
                     paths = ConflictedBasedSearch(grid, AGENTS)
                     colors = [grid[AGENTS[i][0]][AGENTS[i][1]].color for i in range(0, len(AGENTS), 2)]
-
+                    print('printed paths')
+                    for p0, p1 in zip(paths[0], paths[1]):
+                        print(p0.pos(), p1.pos())
+                              
                     done = 0
                     step = 0
                     while done != len(paths): # done has to be = to 2 for 2 agents
                         done = 0
                         for i in range(len(paths)):
                             done += updateGrid(grid, colors[i], paths[i], step, screen)
-                            draw_grid(grid, screen)
                         step += 1 
   
             if event.type == pygame.MOUSEBUTTONUP:
@@ -255,4 +295,4 @@ def main():
 
     pygame.quit()
     
-main()
+main_prolouge()
