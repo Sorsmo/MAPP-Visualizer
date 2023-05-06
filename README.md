@@ -32,7 +32,7 @@ Buttons on the right side of the screen include options to clear the walls curre
 
 The user has access to two different algorithms, Cooperative A* and Conflict-Based Search
 
-Both algorithms utilize A* as the underlying path planning algorithm
+Both algorithms utilize A* on an unweighted and undirected graph as the underlying path planning algorithm
 
 # File Breakdown
 
