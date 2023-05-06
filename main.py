@@ -233,9 +233,8 @@ def main():
                     step = 0
                     while done != len(paths): # done has to be = to 2 for 2 agents
                         done = 0
-                        for i in range(len(paths)):
-                            done += updateGrid(grid, colors[i], paths[i], step, screen)
-                        step += 1
+                        done = updateScreen(grid, colors, paths, step, screen) # update grid at each time interval
+                        step += 1 
 
                     """for i in range(len(paths)):
                         for j in range(len(paths[i])):
