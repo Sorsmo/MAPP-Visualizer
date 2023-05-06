@@ -5,6 +5,7 @@ How can we path plan in a situation where there are multiple agents (people, car
 ## Output and correctness of each algorithm
 
 ### Cooperative A*:
+  We finished our implementation of Cooperative A* or CA* using hash tables for reservations so that agents in a specific order would get priority and others behind it would be delayed so that there is no collision. The visualizer was meant to be connected in one big path at the start of the run, and the cells disappear to show the path moving one cell at a time. If a cell at a certain time and position overlap at a certain point, the most recent one will delay itself by one to let the priority cells pass. We use multiple helper functions to find the most optimal path, incorporating the hashes as well.
 
 ### Conflict-Based Search:
 
