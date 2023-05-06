@@ -46,7 +46,7 @@ def ICanFixConflicts(paths, flag):
             else:
                 seenPath.append(paths[i][time].pos())
                 #print(paths[i][time].pos())
-                
+                #again = True
             
         time += 1
         
