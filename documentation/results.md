@@ -15,4 +15,4 @@ How can we path plan in a situation where there are multiple agents (people, car
 
 ## The answer to our leading question
 
-Via an underlying path finding algorithm, in this case A*, we can find individual optimal paths for each of our agents and analyze/modify the paths using a "wait" command that can delay the movement of agents. This results in less optimal pathing but ensures no collisions occurs. 
+Via an underlying path finding algorithm, in this case A*, we can find individual optimal paths for each of our agents and analyze/modify the paths using a "wait" command that can delay the movement of agents. This results in less optimal pathing but ensures no collisions occurs. There is also the possibility that we could have the A* find unique paths for each agent, but it creates an even less optimal path. We had issues mainly with our visual aid in terms of showing each agents path by also clearly showing there was no collision if path lengths are close in distance. We ended up using a blinking aid to show the cells moving to its destination individually, one at a time. Otherwise, CA* works to the best of its ability,
