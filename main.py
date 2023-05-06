@@ -247,11 +247,11 @@ def main():
                 mouse_pos_x = pygame.mouse.get_pos()[0]
                 mouse_pos_y = pygame.mouse.get_pos()[1]
 
-                if mouse_pos_x in range(HEIGHT, WIDTH) and mouse_pos_y in range(0*HEIGHT//4, 1*HEIGHT//4):
+                if mouse_pos_x in range(HEIGHT, WIDTH) and mouse_pos_y in range(0, 180):
                     clear_walls(grid)
-                if mouse_pos_x in range(HEIGHT, WIDTH) and mouse_pos_y in range(1*HEIGHT//4, 2*HEIGHT//4):
+                if mouse_pos_x in range(HEIGHT, WIDTH) and mouse_pos_y in range(180, 360):
                     randomize(grid, screen, SIZE, SIZE)
-                if mouse_pos_x in range(HEIGHT, WIDTH) and mouse_pos_y in range(2*HEIGHT//4, 3*HEIGHT//4):
+                if mouse_pos_x in range(HEIGHT, WIDTH) and mouse_pos_y in range(360, 540):
                     paths = CooperativeAStar(grid, AGENTS)
                     colors = [grid[AGENTS[i][0]][AGENTS[i][1]].color for i in range(0, len(AGENTS), 2)]
 
@@ -266,7 +266,7 @@ def main():
                         for j in range(len(paths[i])):
                             if (paths[i][j].is_wall()):
                                 paths[i][j].make_normal() """
-                if mouse_pos_x in range(HEIGHT, WIDTH) and mouse_pos_y in range(3*HEIGHT//4, 4*HEIGHT//4):
+                if mouse_pos_x in range(HEIGHT, WIDTH) and mouse_pos_y in range(540, 720):
                     paths = ConflictedBasedSearch(grid, AGENTS)
                     colors = [grid[AGENTS[i][0]][AGENTS[i][1]].color for i in range(0, len(AGENTS), 2)]
                     print('printed paths')
