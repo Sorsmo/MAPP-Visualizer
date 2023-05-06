@@ -13,12 +13,10 @@ from ConflictBasedSearch import ConflictedBasedSearch
 # GLOBAL VARIABLES
 WIDTH = 1080
 HEIGHT = 720
-SIZE = 15                        # Bigger SIZE --> Smaller tiles (best if multiple of HEIGHT)
-CELL_LENGTH = HEIGHT // SIZE    # number of pixels per cell
-NUM_AGENTS = 4                  # number of agents to be generated
+NUM_AGENTS = 2                  # number of agents to be generated
 AGENT_TEXT = []                 # information arrays for displaying text of start/end points
 AGENTS = []
-ANIMATION_DELAY = 200           # delay between each step of the algorithm
+ANIMATION_DELAY = 400           # delay between each step of the algorithm
 
 # Creates a 2D Array representation of the screen
 # Made up of Cells w/ properties in cell.py
@@ -162,6 +160,7 @@ def setup_screen(screen):
     cbs_rect = pygame.draw.rect(screen, (92, 102, 128), pygame.Rect(HEIGHT, 3*HEIGHT//4, 12*CELL_LENGTH, 180))
     screen.blit(cbs_text, cbs_rect)
 
+# helper function for drawing to the screen
 def updateScreen(grid, colors, paths, step, screen):
     done = 0
     for i in range(len(paths)):
@@ -192,7 +191,34 @@ def updateGrid(grid, color, path, step, screen):
 
     return 0 # not done
 
+# sets up agent numbers and cell sizes
+def main_prolouge():
+    global NUM_AGENTS
+    global SIZE
+    global CELL_LENGTH
 
+    size_str = ''
+    sizes = ['small', 'medium', 'large']
+    
+    NUM_AGENTS = int(input("How many agents do you want on screen? "))
+
+    i = 0
+    while size_str not in sizes:
+        if i > 0:
+            print('Incorrect input, please try again.')
+        size_str = input("Do you want a small, medium, or large grid? ").lower()
+        i += 1
+
+    if size_str == 'small':
+        SIZE = 9
+    elif size_str == 'medium':
+        SIZE = 15
+    elif size_str == 'large':
+        SIZE = 24
+
+    CELL_LENGTH = HEIGHT // SIZE
+
+    main()
 
 def main():
     pygame.init()
@@ -269,4 +295,4 @@ def main():
 
     pygame.quit()
     
-main()
+main_prolouge()
