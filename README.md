@@ -3,7 +3,7 @@ Visualize Cooperative A* and Conflict-Based Search with PyGame
 
 Created by Ian Sornson (gis3), Anes Kim (anesk2), and Akaash Kashyap (akash8)
 
-# Link to video presentation
+# [Link to video presentation](https://youtu.be/bUnq_5CDpsI)
 
 # Documentation
 
