@@ -15,7 +15,7 @@ WIDTH = 1080
 HEIGHT = 720
 SIZE = 9                        # Bigger SIZE --> Smaller tiles (best if multiple of HEIGHT)
 CELL_LENGTH = HEIGHT // SIZE    # number of pixels per cell
-NUM_AGENTS = 4                  # number of agents to be generated
+NUM_AGENTS = 2                  # number of agents to be generated
 AGENT_TEXT = []                 # information arrays for displaying text of start/end points
 AGENTS = []
 ANIMATION_DELAY = 75            # delay between each step of the algorithm
@@ -85,7 +85,7 @@ def clear_walls(grid):
             if cell.is_wall() or cell.is_path():
                 cell.make_normal()
 
-# helper fucntion that removes everything from the screen
+# helper function that removes everything from the screen
 def clear_screen(grid):
     for row in range(0, HEIGHT, CELL_LENGTH):
         for col in range(0, HEIGHT, CELL_LENGTH):
@@ -162,6 +162,7 @@ def setup_screen(screen):
     cbs_rect = pygame.draw.rect(screen, (92, 102, 128), pygame.Rect(HEIGHT, 3*HEIGHT//4, 12*CELL_LENGTH, 3*CELL_LENGTH))
     screen.blit(cbs_text, cbs_rect)
 
+
 def updateGrid(grid, color, path, step, screen):
     if step >= len(path):
         return 1 # done
@@ -184,7 +185,6 @@ def updateGrid(grid, color, path, step, screen):
     pygame.display.flip()
     pygame.time.delay(ANIMATION_DELAY)
     return 0 # not done
-
 
 def main():
     pygame.init()
@@ -228,11 +228,7 @@ def main():
                         for i in range(len(paths)):
                             done += updateGrid(grid, colors[i], paths[i], step, screen)
                         step += 1
-
-                    """for i in range(len(paths)):
-                        for j in range(len(paths[i])):
-                            if (paths[i][j].is_wall()):
-                                paths[i][j].make_normal() """
+                        
                 if mouse_pos_x in range(HEIGHT, WIDTH) and mouse_pos_y in range(3*HEIGHT//4, 4*HEIGHT//4):
                     paths = ConflictedBasedSearch(grid, AGENTS)
                     colors = [grid[AGENTS[i][0]][AGENTS[i][1]].color for i in range(0, len(AGENTS), 2)]
@@ -243,10 +239,9 @@ def main():
                         done = 0
                         for i in range(len(paths)):
                             done += updateGrid(grid, colors[i], paths[i], step, screen)
+                            draw_grid(grid, screen)
                         step += 1 
-
-                    
-                            
+  
             if event.type == pygame.MOUSEBUTTONUP:
                 dragging = False
 
